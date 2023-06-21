@@ -5,7 +5,6 @@ import Wrapper from './components/Wrapper/Wrapper';
 import UserTable from './components/UserTable/UserTable';
 import UserModal from './components/UserModal/UserModal';
 import Button from 'react-bootstrap/Button';
-
 import './App.css';
 import UserDeleteModal from './components/UserDeleteModal/UserDeleteModal';
 
@@ -17,11 +16,11 @@ function App() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
 
-  const base_api = 'http://127.0.0.1:3002/api';
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get(`${base_api}/users`);
+      const response = await axios.get(`${apiUrl}/users`);
       setUsers(response.data);
       console.log(response.data);
     } catch (err) {
@@ -43,7 +42,7 @@ function App() {
     console.log(user);
 
     try {
-      const response = await axios.post(`${base_api}/users`, user);
+      const response = await axios.post(`${apiUrl}/users`, user);
       console.log(response.data);
       hideModal();
       fetchUsers();
@@ -67,7 +66,7 @@ function App() {
     console.log(data);
 
     try {
-      const response = await axios.put(`${base_api}/users/${user_id}`, data);
+      const response = await axios.put(`${apiUrl}/users/${user_id}`, data);
       hideModal();
       console.log(response.data);
       fetchUsers();
@@ -85,7 +84,7 @@ function App() {
     console.log(user_id);
 
     try {
-      const response = await axios.delete(`${base_api}/users/${user_id}`);
+      const response = await axios.delete(`${apiUrl}/users/${user_id}`);
       hideDeleteModal();
       console.log(response.data);
       fetchUsers();
@@ -126,8 +125,8 @@ function App() {
   }
 
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    fetchUsers(); // eslint-disable-next-line
+  }, []); // eslint-disable-next-line
   
 
   return (
